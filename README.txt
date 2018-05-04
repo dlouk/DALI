@@ -10,7 +10,7 @@ dimension-adaptive stochastic collocation algorithm based on univariate Leja
 interpolation rules. The software has been developed during my PhD studies at 
 the Institute for Theory of Electromagnetic Fields (TEMF) of TU Darmstadt, under 
 the supervision of Prof. Dr.-Ing. Herbert De Gersem (TU Darmstadt) and 
-Jun.-Prof. Dr.-Ing. Ulrich Roemer (TU Braunschweig).
+Jun.-Prof. Dr.-Ing. Ulrich Römer (TU Braunschweig).
 --------------------------------------------------------------------------------
 
 The DALI software has been used in the studies presented in the following 
