@@ -28,7 +28,7 @@ of those works, in case you use DALI for your own research.
 
 Regarding the mathematical background of the algorithm implemented in DALI, we 
 suggest the following papers:
-- "Dimension-Adaptive Tensor-Product Quadrature", T. Gerstner and M. Griebel, 
+- "Dimension-Adaptive Tensor-Product Quadrature", Gerstner and Griebel, 
 Computing, 2003
 - "High-Dimensional Adaptive Sparse Polynomial Interpolation and Applications 
 to Parametric PDEs", Chkifa, Cohen, and Schwab, Found. Comput. Math., 2014
