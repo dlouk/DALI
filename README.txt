@@ -22,7 +22,7 @@ Loukrezis, Roemer and De Gersem, https://arxiv.org/abs/1712.07223
 Error-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Roemer and 
 Schoeps, link to appear soon
 
-In accordance to ethical scientific practice, we kindly ask to cite at least on 
+In accordance to ethical scientific practice, we kindly ask to cite at least one 
 of those works, in case you use DALI for your own research.
 --------------------------------------------------------------------------------
 
