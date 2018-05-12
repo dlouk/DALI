@@ -4,7 +4,7 @@ Created on Mon Mar 26 15:55:45 2018
 
 @author: Dimitris Loukrezis
 
-Test DALI algorithm on test function
+Test DALI algorithm on the function
 f(x) = exp[-x1^2]*cos(x2)*exp[-x3^2]*cos[x4]
 """
 
@@ -17,10 +17,7 @@ from postprocess import compute_cv_error, compute_moments
 import math
 
 def qoi_tasm(x):
-    """Meromorphic function"""
     return math.exp(- x[0] ** 2) * math.cos(x[1]) 
-#* math.exp(- x[2] ** 2) * math.cos(x[3])
-
 
 # num RVs
 N = 2
