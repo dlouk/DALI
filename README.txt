@@ -18,8 +18,8 @@ papers:
 - "Numerical Comparison of Leja and Clenshaw-Curtis Dimension-Adaptive 
 Collocation for Stochastic Parametric Electromagnetic Field Problems", 
 Loukrezis, Römer and De Gersem, https://arxiv.org/abs/1712.07223 
-- "Uncertainty Quantification for an Optical Grating Coupler with an Adjoint 
-Error-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Römer and 
+- "Uncertainty Quantification for an Optical Grating Coupler with an 
+Adjoint-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Römer and 
 Schöps, https://arxiv.org/abs/1807.07485
 
 In accordance to ethical scientific practice, we kindly ask to cite at least one 
