@@ -20,7 +20,7 @@ Collocation for Stochastic Parametric Electromagnetic Field Problems",
 Loukrezis, Römer and De Gersem, https://arxiv.org/abs/1712.07223 
 - "Uncertainty Quantification for an Optical Grating Coupler with an Adjoint 
 Error-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Römer and 
-Schöps, link to appear soon
+Schöps, https://arxiv.org/abs/1807.07485
 
 In accordance to ethical scientific practice, we kindly ask to cite at least one 
 of those works, in case you use DALI for your own research.
