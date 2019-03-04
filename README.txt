@@ -15,9 +15,9 @@ Jun.-Prof. Dr.-Ing. Ulrich Römer (TU Braunschweig).
 
 The DALI software has been used in the studies presented in the following 
 papers:
-- "Numerical Comparison of Leja and Clenshaw-Curtis Dimension-Adaptive 
-Collocation for Stochastic Parametric Electromagnetic Field Problems", 
-Loukrezis, Römer and De Gersem, https://arxiv.org/abs/1712.07223 
+- "Assessing the Performance of Leja and Clenshaw-Curtis Collocation for 
+Computational Electromagnetics with Random Input Data", Loukrezis, Römer and 
+De Gersem, https://arxiv.org/abs/1712.07223 
 - "Uncertainty Quantification for an Optical Grating Coupler with an 
 Adjoint-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Römer and 
 Schöps, https://arxiv.org/abs/1807.07485
