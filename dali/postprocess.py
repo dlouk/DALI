@@ -56,7 +56,9 @@ def compute_moments(interp_dict, jpdf, which='all'):
                    for n in xrange(N)]
     weights_md = np.prod(weights_md, axis=0)
     # moments
+    # THE VARIANCE COMPUTATION SHOULD BE USED WITH CAUTION !!!
     expected = np.dot(weights_md, hs)
     variance = np.dot(weights_md, hs2) - expected*expected
+    #
     return expected, variance
 
