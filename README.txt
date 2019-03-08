@@ -13,17 +13,22 @@ the supervision of Prof. Dr.-Ing. Herbert De Gersem (TU Darmstadt) and
 Jun.-Prof. Dr.-Ing. Ulrich Römer (TU Braunschweig).
 --------------------------------------------------------------------------------
 
-The DALI software has been used in the studies presented in the following 
-papers:
-- "Assessing the Performance of Leja and Clenshaw-Curtis Collocation for 
-Computational Electromagnetics with Random Input Data", Loukrezis, Römer and 
-De Gersem, https://arxiv.org/abs/1712.07223 
-- "Uncertainty Quantification for an Optical Grating Coupler with an 
-Adjoint-Based Leja Adaptive Collocation Method", Georg, Loukrezis, Römer and 
-Schöps, https://arxiv.org/abs/1807.07485
+The DALI software has been used in the studies presented in the following paper:
 
-In accordance to ethical scientific practice, we kindly ask to cite at least one 
-of those works, in case you use DALI for your own research.
+@article{Loukrezis_2019
+author  = {Dimitrios Loukrezis and Ulrich  Römer and Herbert  De Gersem},
+title   = {Assessing the performance of Leja and Clenshaw-Curtis collocation for 
+           computational electromagnetics with random input data},
+journal = {International Journal for Uncertainty Quantification},
+issn    = {2152-5080},
+year    = {2019},
+volume  = {9},
+number  = {1},
+pages   = {33--57}
+}
+
+In accordance to ethical scientific practice, we kindly ask to cite this work, 
+in case you use DALI for your own research.
 --------------------------------------------------------------------------------
 
 Regarding the mathematical background of the algorithm implemented in DALI, we 
