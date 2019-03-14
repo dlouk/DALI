@@ -8,8 +8,6 @@ Leja interpolation on adaptively constructed sparse grid.
 """
 
 import numpy as np
-from leja1d import seq_lj_1d
-from lagrange1d import Hierarchical1d
 
 
 def interpolate_single(indices, coeffs, polys_per_dim, non_grid_knot):
@@ -33,7 +31,8 @@ def interpolate_single(indices, coeffs, polys_per_dim, non_grid_knot):
     return np.dot(ievals, coeffs)
 
 
-def interpolate_multiple(indices, coeffs, jpdf, non_grid_knots):
+def interpolate_multiple(indices, coeffs, jpdf, knots_per_dim, polys_per_dim, 
+                         non_grid_knots):
     """Leja interpolation on adaptively constructed sparse grid."""
 
     # get shape of non_grid_points array --> K knots, N parameters
@@ -58,20 +57,10 @@ def interpolate_multiple(indices, coeffs, jpdf, non_grid_knots):
     if N != NN:
         return "Error! Knot and multi-index dimensions do not agree!"
 
-    # get maximum index per dimension (P_1, P_2,..., P_N)
-    max_idx_per_dim = np.max(indices, axis=0)
-
     # get knots, polynomials and polynomial evaluations per dimension
-    knots_per_dim = {} # should hold N 1D arrays, [1 x (P_n+1)]
-    polys_per_dim = {} # should hold N 1D lists, [1 x (P_n+1)]
     evals_per_dim = {} # should hold N 2D arrays, [K x (P_n+1)]
     for n in xrange(N):
-        # get knots per dimension based on maximum index
-        kk, ww = seq_lj_1d(order=max_idx_per_dim[n], dist=jpdf[n])
-        knots_per_dim[n] = kk
-        # get polynomials per dimension based on knots
-        P = len(kk) # no. of knots = no. of polynomials = P_n+1
-        polys_per_dim[n] = [Hierarchical1d(kk[:p+1]) for p in xrange(P)]
+        P = len(knots_per_dim[n]) # no. of knots = no. of polynomials = P_n+1
         # univariate polynomial evaluations
         evals_per_dim[n] = np.ones([K, P])
         for p in xrange(1,P): # column 0 --> pol. order 0 --> = 1.0

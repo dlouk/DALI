@@ -10,23 +10,28 @@ Post-process the information of a DALI interpolation dictionary.
 import chaospy as cp
 import numpy as np
 from interpolation import interpolate_multiple
-from leja1d import seq_lj_1d
 
 
 def compute_cv_error(interp_dict, jpdf, func, Nsamples=1000, seed=165, 
                      which='all'):
     """Compute maximum discrete error from a cross-validation set with Nsamples
     random realizations of the joint PDF."""
+    #
     cp.seed(seed)
     test_points = jpdf.sample(Nsamples).T
     fevals = np.array([func(tp) for tp in test_points])
+    #
+    knots_per_dim = interp_dict['knots_per_dim']
+    polys_per_dim = interp_dict['polys_per_dim']
     if which == 'all':
         idx = interp_dict['idx_act'] + interp_dict['idx_adm']
         hs = interp_dict['hs_act'] + interp_dict['hs_adm']
     else:
         idx = interp_dict['idx_act']
         hs = interp_dict['hs_act']
-    ievals = interpolate_multiple(idx, hs, jpdf, test_points)
+    #
+    ievals = interpolate_multiple(idx, hs, jpdf, knots_per_dim, polys_per_dim, 
+                                  test_points)
     errs = [fevals[ns] - ievals[ns] for ns in xrange(Nsamples)]
     cv_err = np.max(np.abs(errs))
     return cv_err
@@ -46,19 +51,13 @@ def compute_moments(interp_dict, jpdf, which='all'):
     M = len(hs) # approx. terms
     N = len(max_idx_per_dim) # dimensions
     # weights per dimension
-    weights_per_dim = {}
-    for n in xrange(N):
-        # get knots per dimension based on maximum index
-        kk, ww = seq_lj_1d(order=max_idx_per_dim[n], dist=jpdf[n])
-        weights_per_dim[n] = ww
+    weights_per_dim = interp_dict['weights_per_dim']
     # multi-dimensional weights
     weights_md = [[weights_per_dim[n][idx[m,n]] for m in xrange(M)]
                    for n in xrange(N)]
     weights_md = np.prod(weights_md, axis=0)
     # moments
-    # THE VARIANCE COMPUTATION SHOULD BE USED WITH CAUTION !!!
     expected = np.dot(weights_md, hs)
     variance = np.dot(weights_md, hs2) - expected*expected
-    #
     return expected, variance
 

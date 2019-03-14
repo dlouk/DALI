@@ -10,8 +10,8 @@ Dimension-Adaptive Leja Interpolation (DALI) algorithm.
 
 import numpy as np
 from idx_admissibility import admissible_neighbors
-from leja1d import seq_lj_1d
-from lagrange1d import Hierarchical1d
+from leja1d import new_lj_1d
+from lagrange1d import Lagrange1d
 from itertools import izip
 from interpolation import interpolate_single
 
@@ -36,14 +36,20 @@ def dali(func, N, jpdf, tol=1e-12, max_fcalls=1000, verbose=True,
         hs2_adm = []    # M_admissible x 1
         fevals_act = [] # M_activated x 1
         fevals_adm = [] # M_admissible x 1
-        
+        knots_per_dim = {}
+        polys_per_dim = {}
+        weights_per_dim = {}
 
         # start with 0 multi-index
         knot0 = []
         for n in xrange(N):
         # get knots per dimension based on maximum index
-            kk, ww = seq_lj_1d(order=0, dist=jpdf[n])
+            kk, ww = new_lj_1d(order=0, dist=jpdf[n], old_knots=[])
             knot0.append(kk[0])
+            # update knots_per_dim and polys_per_dim
+            knots_per_dim[n] = kk
+            weights_per_dim[n] = ww
+            polys_per_dim[n] = [Lagrange1d(kk[0], kk)] 
         feval = func(knot0)
 
         # update activated sets
@@ -64,6 +70,9 @@ def dali(func, N, jpdf, tol=1e-12, max_fcalls=1000, verbose=True,
         hs2_adm = interp_dict['hs2_adm']
         fevals_act = interp_dict['fevals_act']
         fevals_adm = interp_dict['fevals_adm']
+        knots_per_dim = interp_dict['knots_per_dim']
+        weights_per_dim = interp_dict['weights_per_dim']
+        polys_per_dim = interp_dict['polys_per_dim']
         
         # local error indicators
         local_error_indicators = np.abs(hs_adm)
@@ -76,15 +85,6 @@ def dali(func, N, jpdf, tol=1e-12, max_fcalls=1000, verbose=True,
 
     # maximum index per dimension
     max_idx_per_dim = np.max(idx_act + idx_adm, axis=0)
-
-    # univariate knots and polynomials per dimension
-    knots_per_dim = {}
-    polys_per_dim = {}
-    for n in xrange(N):
-        kk, ww = seq_lj_1d(order=max_idx_per_dim[n], dist=jpdf[n])
-        knots_per_dim[n] = kk
-        P = len(kk) # no. of knots = no. of polynomials = P_n+1
-        polys_per_dim[n] = [Hierarchical1d(kk[:p+1]) for p in xrange(P)]
 
     # start iterations
     while global_error_indicator > tol and fcalls < max_fcalls:
@@ -106,15 +106,31 @@ def dali(func, N, jpdf, tol=1e-12, max_fcalls=1000, verbose=True,
             # find which parameter/direction n (n=1,2,...,N) gets refined
             n_ref = np.argmin([idx1 == idx2
                                  for idx1, idx2 in izip(an, last_act_idx)])
-            # sequence of 1d Leja nodes/weights for the given refinement
-            knots_n, weights_n = seq_lj_1d(an[n_ref], jpdf[int(n_ref)])
-
-            # update max_idx_per_dim, knots_per_dim, if necessary
+            
+            # fing the sequence of 1d Leja nodes/weights for the given refinement
+            # update max_idx_per_dim, knots_per_dim, and polys_per_dim, if necessary
             if an[n_ref] > max_idx_per_dim[n_ref]:
+                knots_n_old = knots_per_dim[n_ref]
+                weights_n_old = weights_per_dim[n_ref]
+                knot_n_new, weight_n_new = new_lj_1d(an[n_ref], 
+                                                       jpdf[int(n_ref)], 
+                                                       knots_n_old)
+                knots_n = np.append(knots_n_old, knot_n_new)
+                weights_n = np.append(weights_n_old, weight_n_new)
+                #
                 max_idx_per_dim[n_ref] = an[n_ref]
                 knots_per_dim[n_ref] = knots_n
-                polys_per_dim[n_ref].append(Hierarchical1d(knots_n))
-
+                weights_per_dim[n_ref] = weights_n
+                polys_per_dim[n_ref].append(Lagrange1d(knot_n_new[0], knots_n))
+            else:
+                knots_n_old = knots_per_dim[n_ref][:last_act_idx[n_ref]+1]
+                weights_n_old = weights_per_dim[n_ref][:last_act_idx[n_ref]+1]
+                knot_n_new, weight_n_new = new_lj_1d(an[n_ref], 
+                                                       jpdf[int(n_ref)], 
+                                                       knots_n_old)
+                knots_n = np.append(knots_n_old, knot_n_new)
+                weights_n = np.append(weights_n_old, weight_n_new)
+                
             # find new_knot and compute hierarchical surpluses
             new_knot = last_knot[:]
             new_knot[n_ref] = knots_n[-1]
@@ -156,5 +172,8 @@ def dali(func, N, jpdf, tol=1e-12, max_fcalls=1000, verbose=True,
     interp_dict['hs2_adm'] = hs2_adm
     interp_dict['fevals_act'] = fevals_act
     interp_dict['fevals_adm'] = fevals_adm
+    interp_dict['knots_per_dim'] = knots_per_dim
+    interp_dict['weights_per_dim'] = weights_per_dim
+    interp_dict['polys_per_dim'] = polys_per_dim
     return interp_dict
 
