@@ -6,6 +6,7 @@ Created on Mon Mar 26 15:55:45 2018
 
 Test DALI algorithm on the function
 f(x) = exp[-x1^2]*cos(x2)*exp[-x3^2]*cos[x4]
+(used in the TASMANIAN package)
 """
 
 import chaospy as cp
@@ -55,7 +56,6 @@ for mfc in max_fcalls:
     print "Max. fcalls = ", mfc
     print "Cross-validation error = ", cv_err
     print "Expected value = ", mu
-    print "Variance = ", sigma2
     print "Function calls = ", fcalls
     print "Act/Adm ratio = ", ratio
     print ""
